@@ -1,0 +1,38 @@
+
+- name: ZeroTouch Azure VM Setup
+  hosts: web
+  become: yes
+
+  tasks:
+
+    - name: Update system packages
+      apt:
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Replace default webpage
+      copy:
+        content: |
+          <html>
+          <head><title>ZeroTouch Project</title></head>
+          <body>
+          <h1>🚀 ZeroTouch Azure Infra by Saikat</h1>
+          <p>Terraform + Ansible Automation Project</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
