@@ -1,0 +1,22 @@
+name: ZeroTouch CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install ansible -y
+
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook -i inventory playbook.yml
